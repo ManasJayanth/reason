@@ -112,5 +112,4 @@ let toggle_syntax () =
 
 let _ =
   Hashtbl.add Toploop.directive_table "toggle_syntax"
-    (Toploop.Directive_none toggle_syntax);
-  init_reason ()
+    (Toploop.Directive_none toggle_syntax)

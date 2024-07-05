@@ -24,6 +24,15 @@
   (run cppo -V OCAML:%{ocaml_version} %{deps} -o %{targets})))
 
 (executable
+ (name rtop_vanilla)
+ (public_name rtop-vanilla)
+ (package rtop)
+ (modules rtop_vanilla)
+ (link_flags -linkall)
+ (modes byte)
+ (libraries rtop))
+
+(executable
  (name rtop)
  (public_name rtop)
  (package rtop)

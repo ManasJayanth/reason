@@ -20,7 +20,12 @@ let reason_parse_toplevel_phrase =
   Raised by primitive operation at Toploop.ends_with_lf in file "toplevel/toploop.ml"
 
   Setting `lex_eof_reached` seems to avoid whatever check upstream is doing. *)
-  x.lex_eof_reached <- true;
+  (* x.lex_eof_reached <- x.lex_buffer_len = 0; *)
+  if x.lex_buffer_len = 0 then begin
+      Bytes.set x.lex_buffer 0 '\n';
+      x.lex_buffer_len <- 1
+  end;
+                                                                      (* if Bytes.get x.lex_buffer x.lex_curr_pos = '\n' then *)
 #endif
   r)
 

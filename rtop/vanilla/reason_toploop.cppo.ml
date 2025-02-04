@@ -7,7 +7,7 @@
 
 let default_parse_toplevel_phrase = !Toploop.parse_toplevel_phrase
 let reason_parse_toplevel_phrase =
-  Reason_util.correctly_catch_parse_errors
+  Reason_toploop.Reason_util.correctly_catch_parse_errors
   (fun x ->
     let r =
       Reason_toolchain.To_current.copy_toplevel_phrase
@@ -39,7 +39,7 @@ let main () =
     if not (Toploop.prepare Format.err_formatter ()) then raise (Compenv.Exit_with_status 2);
 #endif
     Toploop.parse_toplevel_phrase := reason_parse_toplevel_phrase;
-    Toploop.parse_use_file := Reason_util.correctly_catch_parse_errors
+    Toploop.parse_use_file := Reason_toploop.Reason_util.correctly_catch_parse_errors
         (fun x -> List.map Reason_toolchain.To_current.copy_toplevel_phrase
             (Reason_toolchain.RE.use_file x));
     (* Toploop.print_out_sig_item := M17n_util.utf8_print_out_sig_item !Toploop.print_out_sig_item; *)

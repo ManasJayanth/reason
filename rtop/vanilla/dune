@@ -1,21 +1,3 @@
-(library
- (name rtop_vanilla)
- (modules reason_util reason_toploop)
- (wrapped false)
- (modes byte)
- (libraries
-  menhirLib
-  reason.easy_format
-  reason
-  findlib
-  reason.ocaml-migrate-parsetree))
-
-(rule
- (targets reason_toploop.ml)
- (deps reason_toploop.cppo.ml)
- (action
-  (run cppo -V OCAML:%{ocaml_version} %{deps} -o %{targets})))
-
 (executable
  (name rtop_vanilla)
  (public_name rtop-vanilla)
@@ -26,4 +8,4 @@
  (libraries
    compiler-libs.toplevel
    findlib.top
-   rtop_vanilla))
+   reason.toploop))

@@ -1,5 +1,6 @@
 let () = try Topdirs.dir_directory (Sys.getenv "OCAML_TOPLEVEL_PATH") with | Not_found -> ();;
 let () = Reason_toploop.main ()
+let () = Toploop.parse_toplevel_phrase := Reason_toploop.reason_parse_toplevel_phrase
 let () = print_string
 "
                    ___  _______   ________  _  __

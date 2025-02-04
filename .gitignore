@@ -15,3 +15,6 @@ _export/
 
 # opam
 _opam/
+
+# Emacs
+*~

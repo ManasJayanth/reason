@@ -39,6 +39,12 @@ let main () =
 
   UTop.require [ "reason.easy_format"; "reason" ];
   Reason_toploop.main ();
+  let default_parse_toplevel_phrase = !Toploop.parse_toplevel_phrase in
+  Toploop.parse_toplevel_phrase := (fun t ->
+    if !Reason_utop.current_top = UTop then
+      default_parse_toplevel_phrase t
+    else
+      Reason_toploop.reason_parse_toplevel_phrase t);
   Reason_utop.init_reason ();
   print_init_message ();
   start_utop ()

@@ -1,0 +1,13 @@
+(rule
+ (targets reason_toploop.ml)
+ (deps reason_toploop.cppo.ml)
+ (action
+  (run cppo -V OCAML:%{ocaml_version} %{deps} -o %{targets})))
+
+(library
+ (name reason_toploop)
+ (public_name reason.toploop)
+ (libraries compiler-libs.toplevel
+  findlib.top
+  reason.easy_format
+  reason))

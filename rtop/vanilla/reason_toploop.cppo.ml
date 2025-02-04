@@ -21,11 +21,10 @@ let reason_parse_toplevel_phrase =
 
   Setting `lex_eof_reached` seems to avoid whatever check upstream is doing. *)
   (* x.lex_eof_reached <- x.lex_buffer_len = 0; *)
-  if x.lex_buffer_len = 0 then begin
+  if x.lex_buffer_len = 0 && not x.lex_eof_reached then begin
       Bytes.set x.lex_buffer 0 '\n';
       x.lex_buffer_len <- 1
   end;
-                                                                      (* if Bytes.get x.lex_buffer x.lex_curr_pos = '\n' then *)
 #endif
   r)
 
@@ -39,15 +38,11 @@ let main () =
 #if OCAML_VERSION >= (5,3,0)
     if not (Toploop.prepare Format.err_formatter ()) then raise (Compenv.Exit_with_status 2);
 #endif
-    Toploop.parse_toplevel_phrase := (fun t ->
-      if !Reason_utop.current_top = UTop then
-        default_parse_toplevel_phrase t
-      else
-        reason_parse_toplevel_phrase t);
+    Toploop.parse_toplevel_phrase := reason_parse_toplevel_phrase;
     Toploop.parse_use_file := Reason_util.correctly_catch_parse_errors
         (fun x -> List.map Reason_toolchain.To_current.copy_toplevel_phrase
             (Reason_toolchain.RE.use_file x));
-     (* Toploop.print_out_sig_item := M17n_util.utf8_print_out_sig_item !Toploop.print_out_sig_item; *)
+    (* Toploop.print_out_sig_item := M17n_util.utf8_print_out_sig_item !Toploop.print_out_sig_item; *)
     (* Toploop.install_printer Predef.path_string Predef.type_string *)
     (*   (fun fmt obj -> M17n_util.utf8_print_string fmt (Obj.magic obj)); *)
   end
